@@ -3,7 +3,7 @@ from z3 import *
 n = 6 # Number of colors
 k = 6 # Number of moves possible
 cols = 4 # Number of columns
-target=[int(value) for value in input().split()] # This is the target configuration
+target=[int(value) for value in input(f"Enter {cols} space-separated numbers between 0 and {n-1} for the target configuration: ").split()] # This is the target configuration
 
 moves=[]
 vs = [[Int(f"position_{i}_{j}") for i in range(cols)] for j in range(k)]

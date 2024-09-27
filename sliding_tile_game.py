@@ -2,7 +2,7 @@ from z3 import *
 
 s = Solver()
 N = 4
-max_steps = 10
+max_steps = 6
 swaps = []
 constraints = []
 for i in range(max_steps):
@@ -26,7 +26,6 @@ for move in swaps:
 
 grid = [[[Int(f"grid_{i}_{j}_{step}") for j in range(N)] for i in range(N)] for step in range(max_steps + 1)]
 
-# Element-wise constraint for grid[0] (initial state)
 initial_grid = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 16, 12], [13, 14, 11, 15]]
 for row in range(N):
     for col in range(N):
