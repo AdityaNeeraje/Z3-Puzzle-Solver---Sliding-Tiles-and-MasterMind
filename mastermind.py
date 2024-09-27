@@ -3,7 +3,7 @@ from z3 import *
 n = 6 # Number of colors
 k = 6 # Number of moves possible
 cols = 4 # Number of columns
-target=[1, 2, 5, 2] # This is the target configuration
+target=[int(value) for value in input().split()] # This is the target configuration
 
 moves=[]
 vs = [[Int(f"position_{i}_{j}") for i in range(cols)] for j in range(k)]
@@ -39,6 +39,9 @@ for i in range(1, k):
         else:
             results[j]=0
             all_correct=False
+    if all_correct:
+            print("Successfully solved the puzzle")
+            exit()
     for j in range(cols):
         if results[j]==2:
             constraints.append(vs[k-1][j]==vs[i-1][j])
@@ -68,9 +71,6 @@ for i in range(1, k):
         for j in range(cols):
             constraints.append(vs[i][j]==m[vs[i][j]])
         s.add(constraints)
-        if all_correct:
-            print("Successfully solved the puzzle")
-            exit()
     else:
         print("Couldn't find the optimal solution in enough moves")
         exit()
