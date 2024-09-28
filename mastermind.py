@@ -1,10 +1,11 @@
 from z3 import *
 
 n = 6 # Number of colors
-k = 6 # Number of moves possible
+k = 5 # Number of moves possible
 cols = 4 # Number of columns
-target=[int(value) for value in input(f"Enter {cols} space-separated numbers between 0 and {n-1} for the target configuration: ").split()] # This is the target configuration
-
+# target=[int(value) for value in input(f"Enter {cols} space-separated numbers between 0 and {n-1} for the target configuration: ").split()] # This is the target configuration
+target=[int(value) for value in input().split()] # This is the target configuration
+# print(target)
 moves=[]
 vs = [[Int(f"position_{i}_{j}") for i in range(cols)] for j in range(k)]
 results = [[Int(f"result_{i}_{j}") for i in range(cols)] for j in range(k)]
@@ -22,7 +23,7 @@ for i in range(cols):
 s.add(constraints)
 if s.check() == sat:
     m = s.model()
-    print([m[vs[0][j]] for j in range(cols)])        
+    # print([m[vs[0][j]] for j in range(cols)])        
 else:
     print("UNSAT")
     exit()
@@ -40,7 +41,7 @@ for i in range(1, k):
             results[j]=0
             all_correct=False
     if all_correct:
-            print("Successfully solved the puzzle")
+            # print("Successfully solved the puzzle")
             exit()
     for j in range(cols):
         if results[j]==2:
@@ -64,19 +65,21 @@ for i in range(1, k):
                 satisfiable=s.check()==sat 
                 s.pop() 
                 if satisfiable:
+                    # print(i, j, m[vs[history_step][j]])
                     s.add(vs[i][j]!=m[vs[history_step][j]])
                     s.check()
+        s.check()
         m = s.model()
-        print([m[vs[i][j]] for j in range(cols)])
+        # print([m[vs[i][j]] for j in range(cols)])
         for j in range(cols):
             constraints.append(vs[i][j]==m[vs[i][j]])
         s.add(constraints)
     else:
-        print("Couldn't find the optimal solution in enough moves")
+        print(f"Couldn't find the optimal solution in enough moves on target {target}")
         exit()
 if any(m.evaluate(vs[k-1][j]).as_long() != target[j] for j in range(cols)):
-    print("Couldn't find the optimal solution in enough moves")
+    print(f"Couldn't find the optimal solution in enough moves on target {target}")
     exit()
 else:
-    print("Successfully solved the puzzle")
+    # print("Successfully solved the puzzle")
     exit()
